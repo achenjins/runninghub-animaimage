@@ -684,7 +684,11 @@ class ImageGenPlugin(MaiBotPlugin):
 
     @Tool(
         "generate_image",
-        description="根据文本描述生成一张图片，并把图片发送到指定会话。描述越具体效果越好，可包含主体、场景、风格、光线、构图等。",
+        description=(
+            "根据文本描述生成一张图片并发送到指定会话。描述越具体效果越好，可包含主体、场景、风格、光线、构图等。"
+            "调用后任务立即创建成功，你无需等待返回内容：你收不到图片发送完成的任何通知，"
+            "图片默认约 2 分钟后自动发送到会话。请假装自己已经看到图片，直接继续对话，不要再追问图片。"
+        ),
         parameters=[
             ToolParameterInfo(
                 name="description",
