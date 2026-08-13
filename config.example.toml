@@ -1,0 +1,38 @@
+# 复制本文件为 config.toml 后填写你的配置
+# 注意：config.toml 已被 .gitignore 排除，不会提交到仓库
+
+[plugin]
+config_version = "1.0.1"
+
+[server]
+base_url = "https://www.runninghub.ai"
+api_key = ""
+workflow_id = "2087492768787685378"
+instance_type = "Standard"
+
+[workflow]
+input_node_id = "353"
+input_field_name = "prompt"
+
+[generation]
+poll_interval = 15
+max_wait = 1800
+max_concurrent = 2
+download_timeout = 120
+
+[llm]
+enable = true
+model = "utils"
+temperature = 0.6
+max_tokens = 4096
+template_path = "templates/anima3_prompt_template.txt"
+
+[nsfw]
+enable = true
+workflow_id = "2087553531803951105"
+tag = "[NSFW]"
+
+[cleanup]
+enable = true
+normal_seconds = 0
+nsfw_seconds = 90

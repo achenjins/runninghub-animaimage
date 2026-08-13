@@ -1,0 +1,46 @@
+{
+  "manifest_version": 2,
+  "id": "github.achenjins.runninghub-animaimage",
+  "version": "1.0.1",
+  "name": "RunningHub 文生图插件",
+  "description": "RunningHub 海外版文生图插件：调用 MaiBot 内置 LLM 按 ANIMA3 模板扩写提示词并提交任务，生成动漫风格图片后自动发送到聊天。支持 /生图 命令、generate_image 工具与公开 API，内置 NSFW 检测与加密工作流分流。",
+  "author": {
+    "name": "achenjins",
+    "url": "https://github.com/achenjins"
+  },
+  "license": "MIT",
+  "urls": {
+    "repository": "https://github.com/achenjins/runninghub-animaimage",
+    "homepage": "https://github.com/achenjins/runninghub-animaimage",
+    "documentation": "https://github.com/achenjins/runninghub-animaimage/blob/main/README.md",
+    "issues": "https://github.com/achenjins/runninghub-animaimage/issues"
+  },
+  "host_application": {
+    "min_version": "1.0.0",
+    "max_version": "1.99.99"
+  },
+  "sdk": {
+    "min_version": "2.0.0",
+    "max_version": "2.99.99"
+  },
+  "dependencies": [
+    {
+      "type": "python_package",
+      "name": "requests",
+      "version_spec": ">=2.31.0"
+    }
+  ],
+  "capabilities": [
+    "send.text",
+    "send.image",
+    "config.get",
+    "llm.generate",
+    "api.call"
+  ],
+  "i18n": {
+    "default_locale": "zh-CN",
+    "supported_locales": [
+      "zh-CN"
+    ]
+  }
+}
