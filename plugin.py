@@ -466,6 +466,9 @@ class ImageGenPlugin(MaiBotPlugin):
                         task_id,
                         message_id or "无",
                     )
+                    # 仅 SFW 图片写入上下文，让 LLM 感知图片；NSFW 不写入
+                    if not is_nsfw:
+                        await self._append_image_to_context(stream_id, image_base64, message_id)
                     if should_cleanup and message_id:
                         self._schedule_recall(message_id, cleanup_seconds)
         except asyncio.CancelledError:
@@ -630,6 +633,29 @@ class ImageGenPlugin(MaiBotPlugin):
         task = asyncio.create_task(self._delayed_recall(message_id, delay_seconds))
         self._recall_tasks.add(task)
         task.add_done_callback(self._recall_tasks.discard)
+
+    async def _append_image_to_context(self, stream_id: str, image_base64: str, message_id: str) -> None:
+        """把已发送的 SFW 图片写入 Maisaka 上下文，让 LLM 后续感知图片。
+
+        失败仅记日志，不影响发送流程。
+        """
+        try:
+            await self.ctx.maisaka.context.append(
+                stream_id=stream_id,
+                segments=[
+                    {
+                        "type": "image",
+                        "binary_data_base64": image_base64,
+                        "description": "由生图插件生成并发送的图片",
+                    }
+                ],
+                visible_text="[生图插件发送了一张图片]",
+                source_kind="plugin:runninghub:image",
+                message_id=message_id or "",
+            )
+            self.ctx.logger.debug("已将图片写入 Maisaka 上下文: message_id=%s", message_id or "无")
+        except Exception as exc:
+            self.ctx.logger.warning("写入 Maisaka 上下文失败（不影响发送）: %s", exc)
 
     async def _delayed_recall(self, message_id: str, delay_seconds: int) -> None:
         """延迟指定秒数后撤回消息（NapCat 适配器），失败时重试一次。"""

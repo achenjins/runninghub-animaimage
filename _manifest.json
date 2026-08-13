@@ -35,7 +35,8 @@
     "send.image",
     "config.get",
     "llm.generate",
-    "api.call"
+    "api.call",
+    "maisaka.context.append"
   ],
   "i18n": {
     "default_locale": "zh-CN",
