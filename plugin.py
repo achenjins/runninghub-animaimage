@@ -189,6 +189,14 @@ class PluginMetaSection(PluginConfigBase):
         description="插件配置版本号",
         json_schema_extra={"hidden": True},
     )
+    # MaiBot 的「禁用/启用」会在 [plugin] 写 enabled；必须声明该字段，
+    # 否则 pydantic(extra=ignore) 会在配置归一化时把它丢弃，
+    # 导致禁用后 inspect 误判为已启用、点「启用」又被翻转回禁用。
+    enabled: bool = Field(
+        default=True,
+        description="插件启用状态（由 MaiBot 管理，请勿手动修改）",
+        json_schema_extra={"hidden": True},
+    )
 
 
 class ImageGenPluginConfig(PluginConfigBase):
